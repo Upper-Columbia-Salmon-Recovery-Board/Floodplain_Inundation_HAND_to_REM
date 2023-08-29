@@ -4,7 +4,7 @@
 #       Script to calculate elevation profile from Relative Elevation Model
 #
 # ------------------------------------------------------ 
-# Installed topoDisatance to use to calculate elevation profile along stream
+# Installed topoDistance to use to calculate elevation profile along stream
 
 library(topoDistance)
 library(raster)
