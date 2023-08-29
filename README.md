@@ -9,7 +9,7 @@ date: "2023-08-28"
 
 ### Step 1: Generate Relative Elevation Models (REMs)
 
-Use [RiverREM](https://github.com/OpenTopography/RiverREM) or [GGL Tool](https://github.com/helstab/GGLREM) to generate REM in reach(es). This requires DTMs in .tif format at using python to run the RiverREM model. 
+Use [RiverREM](https://github.com/OpenTopography/RiverREM) or [GGL Tool](https://github.com/helstab/GGLREM) to generate REM in reach(es). This requires DTMs in .tif format at using python to run the RiverREM model. TIF needs to be in GCS_WGS_1984 projection.
 
 ### Step 2: Generate Discharge of desired flood return interval
 
@@ -17,7 +17,7 @@ Pull discharge from [VIC hydorologic model data](https://www.fs.usda.gov/researc
 
 ### Step 3:  Generate velocity for reach(es)  
 
-Generate Velocity from flood discharge (from VIC). Use the [Oak Ridge National Laboratory Continental floodplain inundation mapping](https://cfim.ornl.gov/data/) project data to identify the wetted area for that VIC discharge. The wetted area can be found in the hydrogeo-fulltable-HUCID.csv table, and the CatchID can be pulled from the catchmask.tif	(which both can be downlaoded from the ORNL website). Note this data set assumes a Manning's roughness of 0.05 to calculate stream velocity.
+Generate Velocity from flood discharge (from VIC). Use the [Oak Ridge National Laboratory Continental floodplain inundation mapping](https://cfim.ornl.gov/data/) project which was established to generate continental Height Above Nearest Drainage (HAND) data. These data are used in this process to identify the wetted area based on a given VIC discharge. The wetted area can be found in the hydrogeo-fulltable-HUCID.csv table, and the CatchID can be pulled from the catchmask.tif	(which both can be downlaoded from the ORNL website). Note this data set assumes a Manning's roughness of 0.05 to calculate stream velocity.
 
 ### Step 4: Generate cross-sectional elevation profile
 

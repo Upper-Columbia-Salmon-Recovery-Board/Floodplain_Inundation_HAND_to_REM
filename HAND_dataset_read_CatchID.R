@@ -6,13 +6,15 @@
 #
 # ------------------------------------------------------ 
 
+# uses readr package - don't need to upload
 
 # ------------------------------------------------------ 
 #    Read data
 # ------------------------------------------------------ 
 
 file_path_x = "P:/GIS/Prioritization/Step 2/CCT_Floodplain/HAND_data/170200/ORNL_output/hydrogeo-fulltable-170200.csv"
-HAND_table = read.csv( file_path_x)
+#HAND_table = read.csv( file_path_x)
+HAND_table = readr::read_csv(file_path_x)
 
 
 # ------------------------------------------------------ 
