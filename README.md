@@ -15,7 +15,7 @@ Use [RiverREM](https://github.com/OpenTopography/RiverREM) or [GGL Tool](https:/
 
 Pull discharge from [VIC hydorologic model data](https://www.fs.usda.gov/research/rmrs/projects/us-stream-flow-metrics). These data include a 1.5-year, 10-year, and 25-year peak discharge.
 
-### Step 3:  Generate velocity for reach(es)  
+### Step 3:  Generate wetted area at flood discharge for reach(es)  
 
 Generate Velocity from flood discharge (from VIC). Use the [Oak Ridge National Laboratory Continental floodplain inundation mapping](https://cfim.ornl.gov/data/) project which was established to generate continental Height Above Nearest Drainage (HAND) data. These data are used in this process to identify the wetted area based on a given VIC discharge. The wetted area can be found in the hydrogeo-fulltable-HUCID.csv table, and the CatchID can be pulled from the catchmask.tif	(which both can be downlaoded from the ORNL website). Note this data set assumes a Manning's roughness of 0.05 to calculate stream velocity.
 
