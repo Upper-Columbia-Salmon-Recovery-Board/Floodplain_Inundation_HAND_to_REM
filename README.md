@@ -26,3 +26,24 @@ At each point along the reach where one generates a wetted area, in R  generate 
 ### Step 5: Map the floodplain inundation
 
 With the REM (from Step 1) – map the floodplain based on the stage height from Step 4. For a continuous floodplain, merge all inundated reach sections.
+
+# How to Run the Code
+
+### Runing the Code 
+The [**Main_script_generate_flood_stage_height.R**](https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/MAIN_script_generate_flood_stage_height.R) is the script that reads in the R libraries, sets parameters, reads in the spreadsheet with reach/transect information, and reads in and loops through the functions. This Main script runs the first function [**FUNCTION_pull_wetted_area_from_discharge.R**](https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/FUNCTION_pull_wetted_area_from_discharge.R) to pull the flooded wetted area based on the VIC discharge in the spreadsheet. The second function is the [**FUNCTION_calculate_flood_stage_height.R**](https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/FUNCTION_calculate_flood_stage_height.R) which calculates the elevation profile between the transect endpoints, and "fills" that cross section based on the wetted area and outputs the stage height when the wetted area is reached.
+
+Other code is in the GitHub page, but this code was "practice" code and not required to run the Main script.
+
+### Spreadsheet
+
+The [spreadsheet](https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/Spreadsheet_HAND_CatchID_ReachInfo.xlsx) includes information about each transect. This includes:
+
+ - *CatchID*: is the ID for the ORNL HAND data set polygon
+ - *UCSRB_Reach*: reach name corresponding to the UCSRB reach network
+ - *Notes*: not required to run model, just notes for the user
+ - *Ten_year_flood_VIC_m3_sec*: 10-year flood dishcarge (m3/sec) based on VIC. (This should probably be names "flood discharge" since you could put in 2-year flood discharge or whatever)
+ - *lat_X*: two lat/lon points are the end points of the transects 
+
+
+
+

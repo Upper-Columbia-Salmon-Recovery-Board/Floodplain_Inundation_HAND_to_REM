@@ -12,7 +12,7 @@
 
 <meta name="date" content="2023-08-28" />
 
-<title>Flooplain Inunidation Calculation</title>
+<title>Floodplain Inunidation Calculation</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,20 +349,20 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Flooplain Inunidation Calculation</h1>
+<h1 class="title toc-ignore">Floodplain Inunidation Calculation</h1>
 <h4 class="date">2023-08-28</h4>
 
 </div>
 
 
-<p><code>{r setup, include=FALSE} knitr::opts_chunk$set(echo = TRUE)</code></p>
-<div id="steps-to-generating-floodplain-inundation" class="section level1">
-<h1>Steps to generating Floodplain Inundation</h1>
+<div id="steps-to-generate-floodplain-inundation-map" class="section level1">
+<h1>Steps to Generate Floodplain Inundation Map</h1>
 <div id="step-1-generate-relative-elevation-models-rems" class="section level3">
 <h3>Step 1: Generate Relative Elevation Models (REMs)</h3>
 <p>Use <a href="https://github.com/OpenTopography/RiverREM">RiverREM</a>
 or <a href="https://github.com/helstab/GGLREM">GGL Tool</a> to generate
-REM in reach(es).</p>
+REM in reach(es). This requires DTMs in .tif format at using python to
+run the RiverREM model. TIF needs to be in GCS_WGS_1984 projection.</p>
 </div>
 <div id="step-2-generate-discharge-of-desired-flood-return-interval" class="section level3">
 <h3>Step 2: Generate Discharge of desired flood return interval</h3>
@@ -370,28 +370,71 @@ REM in reach(es).</p>
 hydorologic model data</a>. These data include a 1.5-year, 10-year, and
 25-year peak discharge.</p>
 </div>
-<div id="step-3-generate-velocity-for-reaches" class="section level3">
-<h3>Step 3: Generate velocity for reach(es)</h3>
+<div id="step-3-generate-wetted-area-at-flood-discharge-for-reaches" class="section level3">
+<h3>Step 3: Generate wetted area at flood discharge for reach(es)</h3>
 <p>Generate Velocity from flood discharge (from VIC). Use the <a href="https://cfim.ornl.gov/data/">Oak Ridge National Laboratory
-Continental floodplain inundation mapping</a> project data to identify
-the wetted area for that VIC discharge. Note this data set assumes a
-Manning’s roughness of 0.05 to calculate stream velocity.</p>
+Continental floodplain inundation mapping</a> project which was
+established to generate continental Height Above Nearest Drainage (HAND)
+data. These data are used in this process to identify the wetted area
+based on a given VIC discharge. The wetted area can be found in the
+hydrogeo-fulltable-HUCID.csv table, and the CatchID can be pulled from
+the catchmask.tif (which both can be downlaoded from the ORNL website).
+Note this data set assumes a Manning’s roughness of 0.05 to calculate
+stream velocity.</p>
 </div>
-<div id="step-4-generate-cross-sectional-elevation-profile" class="section level3">
-<h3>Step 4: Generate cross-sectional elevation profile</h3>
+<div id="step-4-calculate-flood-stage-height-from-cross-sectional-elevation-profile" class="section level3">
+<h3>Step 4: Calculate flood stage height from cross-sectional elevation
+profile</h3>
 <p>At each point along the reach where one generates a wetted area, in R
-generate elevation profile. One way to do this is a combination of the
-“extract” function from the raster package to generation the
-cross-section elevation profile. Then the Water_Area_Fxn function uses
-incremental stage height steps to “fill up” the profile until the
-cross-sectional area inundated is equal to the wetted area from the
-previous step. This value is the “stage height” for the next step.</p>
+generate elevation profile. This uses the
+{Calculate_elevation_profile_from_REM.R}(<a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/Calculate_elevation_profile_from_REM.R" class="uri">https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/Calculate_elevation_profile_from_REM.R</a>)
+script which pulls the function from the <a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/FUNCTION_calculate_flood_stage_height.R">FUNCTION_calculate_flood_stage_height.R</a>
+This script uses the “extract” function from the <a href="https://rspatial.org/raster/pkg/1-introduction.html">raster
+package</a> to generation the cross-section elevation profile. Then the
+Water_Area_Fxn function uses incremental stage height steps to “fill up”
+the profile until the cross-sectional area inundated is equal to the
+wetted area from the previous step. This value is the “stage height” for
+the next step.</p>
 </div>
 <div id="step-5-map-the-floodplain-inundation" class="section level3">
 <h3>Step 5: Map the floodplain inundation</h3>
 <p>With the REM (from Step 1) – map the floodplain based on the stage
 height from Step 4. For a continuous floodplain, merge all inundated
 reach sections.</p>
+</div>
+</div>
+<div id="how-to-run-the-code" class="section level1">
+<h1>How to Run the Code</h1>
+<div id="runing-the-code" class="section level3">
+<h3>Runing the Code</h3>
+<p>The <a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/MAIN_script_generate_flood_stage_height.R"><strong>Main_script_generate_flood_stage_height.R</strong></a>
+is the script that reads in the R libraries, sets parameters, reads in
+the spreadsheet with reach/transect information, and reads in and loops
+through the functions. This Main script runs the first function <a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/FUNCTION_pull_wetted_area_from_discharge.R"><strong>FUNCTION_pull_wetted_area_from_discharge.R</strong></a>
+to pull the flooded wetted area based on the VIC discharge in the
+spreadsheet. The second function is the <a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/FUNCTION_calculate_flood_stage_height.R"><strong>FUNCTION_calculate_flood_stage_height.R</strong></a>
+which calculates the elevation profile between the transect endpoints,
+and “fills” that cross section based on the wetted area and outputs the
+stage height when the wetted area is reached.</p>
+<p>Other code is in the GitHub page, but this code was “practice” code
+and not required to run the Main script.</p>
+</div>
+<div id="spreadsheet" class="section level3">
+<h3>Spreadsheet</h3>
+<p>The <a href="https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodplain_Inundation_HAND_to_REM/blob/main/Spreadsheet_HAND_CatchID_ReachInfo.xlsx">spreadsheet</a>
+includes information about each transect. This includes:</p>
+<ul>
+<li><em>CatchID</em>: is the ID for the ORNL HAND data set polygon</li>
+<li><em>UCSRB_Reach</em>: reach name corresponding to the UCSRB reach
+network</li>
+<li><em>Notes</em>: not required to run model, just notes for the
+user</li>
+<li><em>Ten_year_flood_VIC_m3_sec</em>: 10-year flood dishcarge (m3/sec)
+based on VIC. (This should probably be names “food discharge” since you
+could put in 2-year flood discharge or whatever)</li>
+<li><em>lat_X</em>: two lat/lon points are the end points of the
+transects</li>
+</ul>
 </div>
 </div>
 
