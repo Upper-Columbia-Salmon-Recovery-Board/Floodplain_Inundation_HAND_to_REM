@@ -41,7 +41,7 @@ The [spreadsheet](https://github.com/Upper-Columbia-Salmon-Recovery-Board/Floodp
  - *CatchID*: is the ID for the ORNL HAND data set polygon
  - *UCSRB_Reach*: reach name corresponding to the UCSRB reach network
  - *Notes*: not required to run model, just notes for the user
- - *Ten_year_flood_VIC_m3_sec*: 10-year flood dishcarge (m3/sec) based on VIC. (This should probably be names "flood discharge" since you could put in 2-year flood discharge or whatever)
+ - *flood_discharge_VIC_m3_sec*: flood dishcarge (m3/sec) based on VIC.
  - *lat_X*: two lat/lon points are the end points of the transects 
 
 
