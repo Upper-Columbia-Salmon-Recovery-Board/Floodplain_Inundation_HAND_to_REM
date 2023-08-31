@@ -57,7 +57,7 @@ for(row_x in 1:nrow(catchID_list) ){
   catchID_x = catchID_list$CatchID[row_x]
   reach_x = catchID_list$UCSRB_Reach[row_x]
   # ---------- VIC flood discharge -------
-  flood_discharge_x = catchID_list$Ten_year_flood_VIC_m3_sec[row_x]
+  flood_discharge_x = catchID_list$flood_discharge_VIC_m3_sec[row_x]
   # ------------ raster path ------------
   raster_path = catchID_list$REM_Tif_Path[row_x]
   #raster_path = substring(raster_path,1, nchar(raster_path)-1) # strip extra characters
