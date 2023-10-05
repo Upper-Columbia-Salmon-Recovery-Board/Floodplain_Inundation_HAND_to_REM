@@ -50,6 +50,7 @@ Calculate_Flood_Stage_Fxn = function(elevation_profile_height_x, elevation_profi
   # --------------- sequence through elevation increments to get water area -----------
   seq_elev = seq(increment_ft,top_height_ft_x,by=increment_ft)
   i = 0 
+  water_area_CALC = 0
   for(elev_x in seq_elev){
     i = i + 1
     water_area_CALC_prev = water_area_CALC  # save previous water area calc
@@ -63,6 +64,7 @@ Calculate_Flood_Stage_Fxn = function(elevation_profile_height_x, elevation_profi
       water_area_portion_above = (water_area_ft2_x-water_area_CALC_prev)/water_area_CALC_DIF # calculate portion between wetted areas
       elev_output_x = seq_elev[i-1] + (increment_ft*water_area_portion_above) # calculate portion between increment
     }
+    else {elev_output_x = NA}
   }
   return(round(elev_output_x,2))
 
